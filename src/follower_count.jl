@@ -3,6 +3,8 @@ using Cascadia: @sel_str
 using Gumbo:parsehtml, text
 using JSON
 
+include("utils.jl");
+
 struct InstagramProfile
     name::String
     followers::Int32
