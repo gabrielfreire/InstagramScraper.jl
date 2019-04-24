@@ -43,3 +43,6 @@ You need to build/uncompress the executable in order to run this script
 ```shell
 bash manually_test.sh
 ```
+
+# TODO
+- Scrape more Data on Instagram
