@@ -5,6 +5,7 @@
 
 # Requirements
 to run julia `./src/InstagramScraper.jl` file
+- run `git clone https://github.com/gabrielfreire/InstagramScraper.jl.git`
 ```julia
 using Pkg
 Pkg.add("HTTP")
