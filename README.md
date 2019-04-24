@@ -12,7 +12,7 @@ Pkg.add("HTTP")
 Pkg.add("Cascadia")
 Pkg.add("Gumbo")
 ```
-to run julia `./BuildScript.jl` file
+to run julia `./compile.jl` file
 ```julia
 using Pkg
 Pkg.add("PackageCompiler")
@@ -34,7 +34,7 @@ freire.tatyana has 898 followers
 
 # Build executable
 ```shell
-julia BuildScript.jl
+julia compile.jl
 ```
 Or just uncompress the file `./build/build.7z` inside `./build` folder
 
