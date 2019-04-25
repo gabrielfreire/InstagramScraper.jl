@@ -2,3 +2,4 @@ build/*.dll
 build/*.a
 build/*.exe
 build/*.jl
+build/try/*
