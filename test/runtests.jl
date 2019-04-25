@@ -8,11 +8,11 @@ end
 @testset "get follower count" begin
     @test get_followers("gabrielfreiredev") !== Nothing
     @test typeof(get_followers("gabrielfreiredev")) == InstagramProfile
-    @test_throws MethodError get_followers()
+    @test_throws ErrorException get_followers("")
 end
 
 @testset "get multiple follower counts" begin
-    two_arr = get_multiple_followers(String["gabrielfreiredev", "freire.tatyana"], false)
+    two_arr = get_multiple_followers(String["gabrielfreiredev", "freire.tatyana"], true)
     one_arr = get_multiple_followers(String["gabrielfreiredev"], false)
     empty_arr = get_multiple_followers(String[], false)
     @test length(two_arr) == 2
