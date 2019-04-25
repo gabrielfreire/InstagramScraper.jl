@@ -1,4 +1,6 @@
 using HTTP:get
+
+
 """
     @jit ...
 The `@jit` annotation can be applied to any code, and the code will be compiled
@@ -10,6 +12,7 @@ be used for aesthetic purposes, or by recovering Python users.
 macro jit(ex)
     esc(ex)
 end
+
 
 function fetch_body(url::String)::String
     if (isempty(url))
@@ -29,5 +32,6 @@ function fetch_body(url::String)::String
         error(e)
     end
 end
+
 
 export @jit, fetch_body

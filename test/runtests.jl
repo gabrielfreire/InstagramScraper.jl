@@ -6,8 +6,9 @@ include("../src/InstagramScraper.jl");
     @test InstagramScraper.julia_main(String[]) == 0
 end
 @testset "get follower count" begin
-    @test get_followers("gabrielfreiredev") !== Nothing
-    @test typeof(get_followers("gabrielfreiredev")) == InstagramProfile
+    fc = get_followers("gabrielfreiredev")
+    @test fc !== Nothing
+    @test typeof(fc) == InstagramProfile
     @test_throws ErrorException get_followers("")
 end
 
