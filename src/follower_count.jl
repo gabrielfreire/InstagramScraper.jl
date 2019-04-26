@@ -1,6 +1,11 @@
 using Cascadia
-using Cascadia:Gumbo
 using JSON
+
+import JSON.parse
+import Cascadia.Gumbo
+import Cascadia.@sel_str
+import Gumbo.parsehtml
+import Gumbo.text
 
 
 include("utils.jl");
@@ -9,7 +14,7 @@ include("utils.jl");
 struct InstagramProfile
     name::String
     personal_url::String
-    followers::Int32
+    followers::Int64
 end
 
 
@@ -49,7 +54,7 @@ function get_followers(profile_name::String="")::InstagramProfile
                                         scripts_content["url"] : 
                                         "No personal URL")
         
-        followers_count = parse(Int32, interaction_statistics["userInteractionCount"]);
+        followers_count = Base.parse(Int64, interaction_statistics["userInteractionCount"]);
         return InstagramProfile(name, profile, followers_count)
     
     catch e
