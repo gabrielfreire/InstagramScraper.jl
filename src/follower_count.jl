@@ -1,16 +1,3 @@
-using Cascadia
-using JSON
-
-import JSON.parse
-import Cascadia.Gumbo
-import Cascadia.@sel_str
-import Gumbo.parsehtml
-import Gumbo.text
-
-
-include("utils.jl");
-
-
 struct InstagramProfile
     name::String
     personal_url::String
