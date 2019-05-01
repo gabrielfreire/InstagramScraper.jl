@@ -1,0 +1,6 @@
+name = "InstagramScraperPrecompile"
+
+[deps]
+InstagramScraper = "81a9f400-6670-11e9-190d-bfb62b1fb457"
+PackageCompiler = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"

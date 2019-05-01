@@ -1,9 +1,4 @@
-__precompile__(true)
 module InstagramScraper
-using Cascadia
-using JSON
-
-import Cascadia.Gumbo
 
 include("utils.jl");
 include("follower_count.jl")
@@ -17,9 +12,6 @@ Base.@ccallable function julia_main(ARGS::Vector{String})::Cint
     return 0
 end
 
-
-export julia_main
-
-# julia_main(ARGS);
+julia_main(ARGS)
 
 end

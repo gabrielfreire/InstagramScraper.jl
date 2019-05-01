@@ -1,12 +1,21 @@
+
+using Cascadia
+using JSON
+
+import Cascadia.Gumbo
+
 struct InstagramProfile
     name::String
+    url::String
     personal_url::String
     followers::Int64
 end
 
 
 function Base.show(io::IO, ip::InstagramProfile)
-    print(io, "$(ip.name) at $(ip.personal_url) has $(ip.followers) followers\n")
+    print(io, "\t------------------------------------------\n")
+    print(io, "\n\tNAME: \t$(ip.name)\n\tURL: \t$(ip.url)\n\tPERSONAL URL: \t$(ip.personal_url)\n\tFOLLOWERS: \t$(ip.followers)\n\n")
+    print(io, "\t------------------------------------------\n")
 end
 
 
@@ -23,7 +32,7 @@ function get_followers(profile_name::String="")::InstagramProfile
         error("Profile name not found")
     end
 
-    url = "https://www.instagram.com/" * profile_name
+    url = "https://www.instagram.com/$profile_name"
     try
         body::String = fetch_body(url)
         # parse html
@@ -42,7 +51,7 @@ function get_followers(profile_name::String="")::InstagramProfile
                                         "No personal URL")
         
         followers_count = Base.parse(Int64, interaction_statistics["userInteractionCount"]);
-        return InstagramProfile(name, profile, followers_count)
+        return InstagramProfile(name, url, profile, followers_count)
     
     catch e
         print("Something wrong happened :> $e");
