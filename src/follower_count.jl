@@ -80,5 +80,4 @@ function get_multiple_followers(profiles::Array{String, 1}=[], printable::Bool=f
     return arr
 end
 
-
 export get_multiple_followers

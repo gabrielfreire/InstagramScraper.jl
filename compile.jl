@@ -6,9 +6,15 @@
 # PackageCompiler.compile_incremental(:InstagramScraper)
 
 using ApplicationBuilder
+using HTTP
 
 app_path = joinpath(abspath(@__DIR__), "src", "InstagramScraper.jl")
 
 # include(joinpath(dirname(app_path), "call_functions.jl"))
 
-build_app_bundle(app_path, appname="InstagramScraper", snoopfile="src/call_functions.jl", verbose=true, create_installer=true)
+build_app_bundle(app_path, 
+                appname="InstagramScraper", 
+                snoopfile="src/call_functions.jl", 
+                verbose=true, 
+                create_installer=true,
+                libraries=[HTTP.Servers.MbedTLS.libmbedcrypto, HTTP.Servers.MbedTLS.libmbedtls, HTTP.Servers.MbedTLS.libmbedx509])

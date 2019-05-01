@@ -4,7 +4,7 @@ build/*.a
 build/*.exe
 build/*.jl
 build/try/*
-
+lib
 *.nsi
 *.exe
 builddir/

@@ -1,5 +1,4 @@
 module InstagramScraper
-
 include("utils.jl");
 include("follower_count.jl")
 

@@ -1,0 +1,15 @@
+function _precompile_()
+    ccall(:jl_generating_output, Cint, ()) == 1 || return nothing
+    precompile(Tuple{typeof(Gumbo.elem_tag), Gumbo.CGumbo.Element})
+    precompile(Tuple{typeof(Gumbo.gumbo_to_jl), Gumbo.HTMLElement{:svg}, Gumbo.CGumbo.Element})
+    precompile(Tuple{typeof(Gumbo.gumbo_to_jl), Gumbo.HTMLElement{:span}, Gumbo.CGumbo.Element})
+    precompile(Tuple{typeof(Gumbo.gumbo_to_jl), Gumbo.HTMLElement{:body}, Gumbo.CGumbo.Element})
+    precompile(Tuple{typeof(Gumbo.gumbo_to_jl), Gumbo.HTMLElement{:head}, Gumbo.CGumbo.Element})
+    precompile(Tuple{typeof(Gumbo.gumbo_to_jl), Gumbo.NullNode, Gumbo.CGumbo.Element})
+    precompile(Tuple{typeof(Gumbo.gumbo_to_jl), Gumbo.HTMLElement{:HTML}, Gumbo.CGumbo.Element})
+    precompile(Tuple{getfield(Gumbo, Symbol("##parsehtml#4")), Bool, typeof(identity), String})
+    precompile(Tuple{typeof(Gumbo.gumbo_to_jl), Gumbo.HTMLElement{:script}, Gumbo.CGumbo.Text})
+    precompile(Tuple{typeof(Gumbo.attributes), Array{Ptr{Gumbo.CGumbo.Attribute}, 1}})
+    precompile(Tuple{typeof(Gumbo.document_from_gumbo), Gumbo.CGumbo.Output})
+    precompile(Tuple{typeof(Gumbo.gumbo_to_jl), Gumbo.HTMLElement{:title}, Gumbo.CGumbo.Text})
+end

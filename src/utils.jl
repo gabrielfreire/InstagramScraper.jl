@@ -1,4 +1,4 @@
-using HTTP:get
+using HTTP
 
 function fetch_body(url::String)::String
     if (isempty(url))
@@ -8,7 +8,7 @@ function fetch_body(url::String)::String
     @info "Fetching $url !"
     
     try
-        response = get(url)
+        response = HTTP.get(url)
         if (response.status == 200)
             return String(response.body)
         else
@@ -18,6 +18,5 @@ function fetch_body(url::String)::String
         error(e)
     end
 end
-
 
 export fetch_body
