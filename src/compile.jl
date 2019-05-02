@@ -17,4 +17,6 @@ build_app_bundle(app_path,
                 snoopfile="call_functions.jl", 
                 verbose=true, 
                 create_installer=true,
+                binary_name="ig",
+                commandline_app=true,
                 libraries=[HTTP.Servers.MbedTLS.libmbedcrypto, HTTP.Servers.MbedTLS.libmbedtls, HTTP.Servers.MbedTLS.libmbedx509])
