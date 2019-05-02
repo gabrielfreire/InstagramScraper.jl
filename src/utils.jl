@@ -1,11 +1,9 @@
 using HTTP
-
 function fetch_body(url::String)::String
+
     if (isempty(url))
         error("URL not found")
     end
-    
-    @info "Fetching $url !"
     
     try
         response = HTTP.get(url)

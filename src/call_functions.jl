@@ -1,15 +1,16 @@
 using HTTP
 
-Core.eval(HTTP.Servers.MbedTLS, :(const libmbedcrypto = joinpath(abspath(@__DIR__, "..") ,"lib", "$(basename(libmbedcrypto))")))
-Core.eval(HTTP.Servers.MbedTLS, :(const libmbedtls = joinpath(abspath(@__DIR__, "..") ,"lib", "$(basename(libmbedtls))")))
-Core.eval(HTTP.Servers.MbedTLS, :(const libmbedx509 = joinpath(abspath(@__DIR__, "..") ,"lib", "$(basename(libmbedx509))")))
+
 # This file is responsible for calling the main function for code_lowering before compilation
 include("InstagramScraper.jl")
+
 include("precompile/precompile_AbstractTrees.jl")
 _precompile_()
 include("precompile/precompile_Base.jl")
 _precompile_()
 include("precompile/precompile_Cascadia.jl")
+_precompile_()
+include("precompile/precompile_Core.jl")
 _precompile_()
 include("precompile/precompile_Dates.jl")
 _precompile_()

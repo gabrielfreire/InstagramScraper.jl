@@ -1,4 +1,8 @@
 src/script.jl
+src/precompile/**
+src/precompile
+src/builddir
+src/*.dll
 build/*.dll
 build/*.a
 build/*.exe
