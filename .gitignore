@@ -1,17 +1,17 @@
-src/script.jl
-src/precompile/**
-src/precompile
-src/builddir
-src/*.dll
-build/*.dll
-build/*.a
-build/*.exe
-build/*.jl
-build/try/*
+
+# lib and res folders were used to put the necessary files in order to build snoop.jl and call the snoopfiles in call_functions.jl
 lib
+res
+
+# unecessary precompile snoop files
+src/precompile
+
+# builddir
+src/builddir
+
+# other unecessary files created by compile.jl
+src/*.nsi
+src/*.exe
 *.nsi
 *.exe
 *.csv
-builddir/
-builddir/*
-builddir/**/*

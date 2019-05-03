@@ -8,6 +8,7 @@ MbedTLS = HTTP.Servers.MbedTLS
 Base.@ccallable function julia_main(ARGS::Vector{String})::Cint
     if get(ENV, "COMPILING_APPLE_BUNDLE", "false") == "true"
         Core.eval(MbedTLS, :(const depsjl_path = ""))
+        Core.eval(MbedTLS, :(cacert_path = "..\\\\res\\\\cacert.pem"))
         Core.eval(MbedTLS, :(const libmbedcrypto = "..\\\\lib\\\\$(basename(libmbedcrypto))"))
         Core.eval(MbedTLS, :(const libmbedtls = "..\\\\lib\\\\$(basename(libmbedtls))"))
         Core.eval(MbedTLS, :(const libmbedx509 = "..\\\\lib\\\\$(basename(libmbedx509))"))
@@ -23,7 +24,7 @@ Base.@ccallable function julia_main(ARGS::Vector{String})::Cint
     if length(ARGS) > 0 && length(ARGS) < 15
         get_multiple_followers(ARGS, true)
     else
-        print("\nNo arguments found\n\tUsage ./InstagramScraper {instagram_profile_name1} {instagram_profile_name2} {instagram_profile_name3}\n")
+        print("\nNo arguments found\n\tUsage \n\t./InstagramScraper {instagram_profile_name1} {instagram_profile_name2} {instagram_profile_name3}\n")
     end
     return 0
 end
