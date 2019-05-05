@@ -2,11 +2,13 @@ module InstagramScraper
 include("utils.jl");
 include("follower_count.jl")
 using HTTP
+using Gumbo
 
 MbedTLS = HTTP.Servers.MbedTLS
 
 Base.@ccallable function julia_main(ARGS::Vector{String})::Cint
     if get(ENV, "COMPILING_APPLE_BUNDLE", "false") == "true"
+        Core.eval(Gumbo, :(const libgumbo = "..\\\\lib\\\\$(basename(libgumbo))"))
         Core.eval(MbedTLS, :(const depsjl_path = ""))
         Core.eval(MbedTLS, :(cacert_path = "..\\\\res\\\\cacert.pem"))
         Core.eval(MbedTLS, :(const libmbedcrypto = "..\\\\lib\\\\$(basename(libmbedcrypto))"))

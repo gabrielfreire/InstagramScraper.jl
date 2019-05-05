@@ -7,7 +7,7 @@
 
 using ApplicationBuilder
 using HTTP
-
+using Gumbo
 app_path = joinpath(abspath(@__DIR__), "InstagramScraper.jl")
 
 mbedTLSPkg = dirname(dirname(pathof(HTTP.Servers.MbedTLS)))
@@ -21,4 +21,4 @@ build_app_bundle(app_path,
                 create_installer=true,
                 binary_name="InstagramScraper",
                 commandline_app=true,
-                libraries=[HTTP.Servers.MbedTLS.libmbedcrypto, HTTP.Servers.MbedTLS.libmbedtls, HTTP.Servers.MbedTLS.libmbedx509])
+                libraries=[Gumbo.libgumbo, HTTP.Servers.MbedTLS.libmbedcrypto, HTTP.Servers.MbedTLS.libmbedtls, HTTP.Servers.MbedTLS.libmbedx509])
