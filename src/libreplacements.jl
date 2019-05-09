@@ -2,7 +2,6 @@
 # Overwrite lib constants for compilation
 if get(ENV, "COMPILING_APPLE_BUNDLE", "false") == "true"
     using HTTP
-    
     MbedTLS = HTTP.Servers.MbedTLS
     using Cascadia:Gumbo
     Core.eval(Gumbo, :(const libgumbo = "..\\\\lib\\\\$(basename(libgumbo))"))
