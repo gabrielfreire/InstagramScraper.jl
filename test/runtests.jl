@@ -13,13 +13,17 @@ end
 end
 
 @testset "get multiple follower counts" begin
-    two_arr = InstagramScraper.get_multiple_followers(String["gabrielfreiredev", "freire.tatyana"], true)
-    one_arr = InstagramScraper.get_multiple_followers(String["gabrielfreiredev"], false)
-    empty_arr = InstagramScraper.get_multiple_followers(String[], false)
+empty_arr = InstagramScraper.get_multiple_followers(String[], false)
+one_arr = InstagramScraper.get_multiple_followers(String["gabrielfreiredev"], false)
+two_arr = InstagramScraper.get_multiple_followers(String["gabrielfreiredev", "freire.tatyana"], true)
+three_arr = InstagramScraper.get_multiple_followers(String["gabrielfreiredev", "freire.tatyana", "appexotic"], true)
+    @test length(one_arr) == 1
+    @test typeof(one_arr[1]) == InstagramScraper.InstagramProfile
     @test length(two_arr) == 2
     @test typeof(two_arr) == Array{InstagramScraper.InstagramProfile, 1}
     @test typeof(two_arr[1]) == InstagramScraper.InstagramProfile
-    @test length(one_arr) == 1
+    @test typeof(three_arr[3]) == InstagramScraper.InstagramProfile
+    @test length(three_arr) == 3
     @test length(empty_arr) == 0
 end
 

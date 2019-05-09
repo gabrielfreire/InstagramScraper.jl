@@ -1,6 +1,3 @@
-using HTTP
-
-
 # This file is responsible for calling the main function for code_lowering before compilation
 include("InstagramScraper.jl")
 
@@ -36,3 +33,5 @@ InstagramScraper.get_multiple_followers(String["gabrielfreiredev"])
 InstagramScraper.julia_main(String[])
 InstagramScraper.julia_main(String["gabrielfreiredev"])
 InstagramScraper.julia_main(String["gabrielfreiredev", "freire.tatyana"])
+InstagramScraper.julia_main(String["gabrielfreiredev", "freire.tatyana", "epic.workstations_"])
+InstagramScraper.julia_main(String["gabrielfreiredev", "freire.tatyana", "epic.workstations_", "appexotic"])

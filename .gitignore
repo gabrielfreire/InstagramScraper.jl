@@ -1,3 +1,4 @@
+.vscode
 
 # lib and res folders were used to put the necessary files in order to build snoop.jl and call the snoopfiles in call_functions.jl
 lib
@@ -8,6 +9,9 @@ src/precompile
 
 # builddir
 src/builddir
+
+#code backup folder
+backup
 
 # other unecessary files created by compile.jl
 src/*.nsi

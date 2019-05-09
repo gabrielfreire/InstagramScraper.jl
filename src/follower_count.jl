@@ -1,21 +1,27 @@
-
 using Cascadia
 using JSON
 
 import Cascadia.Gumbo
+
+
+export get_multiple_followers
 
 struct InstagramProfile
     name::String
     url::String
     personal_url::String
     followers::Int64
+    InstagramProfile(name, url, personal_url, followers) = new(name, url, personal_url, followers)
 end
 
 
 function Base.show(io::IO, ip::InstagramProfile)
-    print(io, "\t------------------------------------------\n")
-    print(io, "\n\tNAME: \t$(ip.name)\n\tURL: \t$(ip.url)\n\tPERSONAL URL: \t$(ip.personal_url)\n\tFOLLOWERS: \t$(ip.followers)\n\n")
-    print(io, "\t------------------------------------------\n")
+    printstyled("\n\t------------------------------------------\n", color=:light_blue)
+    printstyled("\n\tNAME: \t$(ip.name)",                           color=:light_green)
+    printstyled("\n\tURL: \t$(ip.url)",                             color=:green)
+    printstyled("\n\tPERSONAL URL: \t$(ip.personal_url)",           color=:light_green)
+    printstyled("\n\tFOLLOWERS: \t$(ip.followers)",                 color=:green)
+    printstyled("\n\t------------------------------------------\n", color=:light_blue)
 end
 
 
@@ -26,13 +32,13 @@ function Base.print(results::Array{InstagramProfile, 1})
 end
 
 
-function get_followers(profile_name::String="")::InstagramProfile
+function get_followers(profile_name::String="")::Union{InstagramProfile, Nothing}
     
     if (isempty(profile_name))
         error("Profile name not found")
     end
 
-    url = "https://www.instagram.com/$profile_name"
+    url::String = "https://www.instagram.com/$profile_name"
     try
         body::String = fetch_body(url)
         # parse html
@@ -45,17 +51,16 @@ function get_followers(profile_name::String="")::InstagramProfile
         main_entity_of_page = scripts_content["mainEntityofPage"];
         interaction_statistics = main_entity_of_page["interactionStatistic"];
     
-        name = String(scripts_content["name"])
-        profile = String("url" in collect(keys(scripts_content)) ? 
+        name::String = String(scripts_content["name"])
+        profile::String = String("url" in collect(keys(scripts_content)) ? 
                                         scripts_content["url"] : 
                                         "No personal URL")
         
-        followers_count = Base.parse(Int64, interaction_statistics["userInteractionCount"]);
+        followers_count::Int64 = Base.parse(Int64, interaction_statistics["userInteractionCount"]);
         return InstagramProfile(name, url, profile, followers_count)
     
     catch e
-        print("Something wrong happened :> $e");
-        return 0
+        error("Something wrong happened :> $e");
     end
 end
 
@@ -69,7 +74,11 @@ function get_multiple_followers(profiles::Array{String, 1}=[], printable::Bool=f
     
     @time begin
         @sync for prof in profiles
-            @async push!(arr, get_followers(prof));
+            profile::Union{InstagramProfile, Nothing} = get_followers(prof)
+            if profile == nothing 
+                continue 
+            end
+            @async push!(arr, profile);
         end
     end
     
@@ -79,5 +88,3 @@ function get_multiple_followers(profiles::Array{String, 1}=[], printable::Bool=f
 
     return arr
 end
-
-export get_multiple_followers
