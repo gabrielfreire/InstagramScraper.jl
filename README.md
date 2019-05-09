@@ -6,16 +6,11 @@
 # Requirements
 to run julia `./src/InstagramScraper.jl` file
 - run `git clone https://github.com/gabrielfreire/InstagramScraper.jl.git`
+
+to run julia `./src/compile.jl` file
 ```julia
 Julia > using Pkg
-Julia > Pkg.add("HTTP")
-Julia > Pkg.add("Cascadia")
-Julia > Pkg.add("Gumbo")
-```
-to run julia `./compile.jl` file
-```julia
-Julia > using Pkg
-Julia > Pkg.add("PackageCompiler")
+Julia > Pkg.add("ApplicationBuilder")
 ```
 # Run Julia
 **usage**
@@ -28,15 +23,27 @@ $ julia InstagramScraper.jl gabrielfreiredev freire.tatyana
 ```
 **output**
 ```
-gabrielfreiredev has 2270 followers
-freire.tatyana has 898 followers
+        ------------------------------------------
+
+        NAME:   Gabriel Freire
+        URL:    https://www.instagram.com/gabrielfreiredev
+        PERSONAL URL:   http://www.gabrielfreire.com.br/
+        FOLLOWERS:      2274
+        ------------------------------------------
+
+        ------------------------------------------
+
+        NAME:   Tatyana Freire
+        URL:    https://www.instagram.com/freire.tatyana
+        PERSONAL URL:   No personal URL
+        FOLLOWERS:      902
+        ------------------------------------------
 ```
 
 # Build executable
 ```shell
-$ julia compile.jl
+$ julia src/compile.jl
 ```
-Or just uncompress the file `./build/build.7z` inside `./build` folder
 
 # Run Unit Tests
 ```shell
