@@ -74,11 +74,7 @@ function get_multiple_followers(profiles::Array{String, 1}=[], printable::Bool=f
     
     @time begin
         @sync for prof in profiles
-            profile::Union{InstagramProfile, Nothing} = get_followers(prof)
-            if profile == nothing 
-                continue 
-            end
-            @async push!(arr, profile);
+            @async push!(arr, get_followers(prof));
         end
     end
     
