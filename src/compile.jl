@@ -11,7 +11,7 @@ build_app_bundle(app_path,
                 appname="InstagramScraper", 
                 snoopfile="call_functions.jl", 
                 verbose=true, 
-                create_installer=true,
+                create_installer=false,
                 binary_name="InstagramScraper",
                 commandline_app=true,
                 libraries=[Gumbo.libgumbo, HTTP.Servers.MbedTLS.libmbedcrypto, HTTP.Servers.MbedTLS.libmbedtls, HTTP.Servers.MbedTLS.libmbedx509])
