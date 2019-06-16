@@ -1,3 +1,4 @@
+module Util
 using HTTP
 function fetch_body(url::String)::String
 
@@ -6,9 +7,9 @@ function fetch_body(url::String)::String
     end
     
     try
-        response = HTTP.get(url)
+        response::HTTP.Response = HTTP.get(url)
         if (response.status == 200)
-            return String(response.body)
+            return String(response.body)::String
         else
             error("Something wrong happened | HTTP STATUS | $(response.status)")
         end
@@ -18,3 +19,5 @@ function fetch_body(url::String)::String
 end
 
 export fetch_body
+precompile(fetch_body, (String,))
+end # module

@@ -1,70 +1,69 @@
+module FollowerCount
+
 using Cascadia
 using JSON
 
 import Cascadia.Gumbo
 
+include("utils.jl")
 
 export get_multiple_followers
-
+ 
 struct InstagramProfile
     name::String
     url::String
     personal_url::String
-    followers::Int64
+    followers::Int
     InstagramProfile(name, url, personal_url, followers) = new(name, url, personal_url, followers)
 end
 
 
-function Base.show(ip::Union{Nothing, InstagramProfile})
-    if ip == nothing
-        printstyled("\n\t------------------------------------------\n", color=:light_blue)
-        printstyled("\n\tNot found\n",                                    color=:light_green)
-        printstyled("\n\t------------------------------------------\n", color=:light_blue)
-    else
-        printstyled("\n\t------------------------------------------\n", color=:light_blue)
-        printstyled("\n\tNAME: \t$(ip.name)",                           color=:light_green)
-        printstyled("\n\tURL: \t$(ip.url)",                             color=:green)
-        printstyled("\n\tPERSONAL URL: \t$(ip.personal_url)",           color=:light_green)
-        printstyled("\n\tFOLLOWERS: \t$(ip.followers)\n",                 color=:green)
-        printstyled("\n\t------------------------------------------\n", color=:light_blue)
-    end
+function Base.show(ip::InstagramProfile)
+    printstyled("\n\t------------------------------------------\n", color=:light_blue)
+    printstyled("\n\tNAME: \t$(ip.name)",                           color=:light_green)
+    printstyled("\n\tURL: \t$(ip.url)",                             color=:green)
+    printstyled("\n\tPERSONAL URL: \t$(ip.personal_url)",           color=:light_green)
+    printstyled("\n\tFOLLOWERS: \t$(ip.followers)\n",                 color=:green)
+    printstyled("\n\t------------------------------------------\n", color=:light_blue)
 end
 
 
-function Base.print(io::IO, results::Array{Union{Nothing, InstagramProfile}, 1})
-    for res in results
+function Base.print(io::IO, results::Array{InstagramProfile, 1})
+    for res::InstagramProfile in results
         show(res)
     end
 end
 
 
-function get_followers(profile_name::String="")::Union{InstagramProfile, Nothing}
+function get_followers(body::String, url::String)::Union{Nothing, InstagramProfile}
     
-    if (isempty(profile_name))
+    if (isempty(body))
         error("Profile name not found")
     end
 
-    url::String = "https://www.instagram.com/$profile_name"
     try
-        body::String = fetch_body(url)
         # parse html
-        html = Gumbo.parsehtml(body)
+        html::Gumbo.HTMLDocument = Gumbo.parsehtml(body)
+
         # select scripts
-        scripts = eachmatch(Cascadia.@sel_str("script[type='application/ld+json']"), html.root)
+        scripts::Vector{Gumbo.HTMLNode} = eachmatch(Cascadia.@sel_str("script[type='application/ld+json']"), html.root)
         # scripts[1]    = First script tag
         # scripts[1][1] = content of first script tag
         if (length(scripts) > 0)
-            scripts_content = JSON.parse(strip(Gumbo.text(scripts[1][1])))
-            main_entity_of_page = scripts_content["mainEntityofPage"];
-            interaction_statistics = main_entity_of_page["interactionStatistic"];
-        
+            scripts_content::Union{Nothing, Dict{String, Any}} = JSON.parse(strip(Gumbo.text(scripts[1][1])))
+            interaction_statistics::Union{Nothing, Dict{String, Any}} = scripts_content["mainEntityofPage"]["interactionStatistic"];
             name::String = String(scripts_content["name"])
-            profile::String = String("url" in collect(keys(scripts_content)) ? 
+            profile::String = String("url" in haskey(scripts_content, "url") ? 
                                             scripts_content["url"] : 
                                             "No personal URL")
+
             
-            followers_count::Int64 = Base.parse(Int64, interaction_statistics["userInteractionCount"]);
-            return InstagramProfile(name, url, profile, followers_count)
+            followers_count::Int = Base.parse(Int, interaction_statistics["userInteractionCount"]);
+
+            interaction_statistics = nothing
+            scripts_content = nothing
+
+            return InstagramProfile(name, url, profile, followers_count)::InstagramProfile
         end
         return nothing
     catch e
@@ -73,16 +72,29 @@ function get_followers(profile_name::String="")::Union{InstagramProfile, Nothing
 end
 
 
-function get_multiple_followers(profiles::Array{String, 1}=[], printable::Bool=false)::Array{Union{Nothing, InstagramProfile}, 1}
-    arr::Array{Union{Nothing, InstagramProfile}, 1} = []
-
-    if (length(profiles) == 0) 
-        return arr 
-    end
-    
+function get_multiple_followers(profiles::Vector{String}=[], printable::Bool=false)::Vector{InstagramProfile}
     @time begin
-        @sync for prof in profiles
-            @async push!(arr, get_followers(prof));
+        arr::Vector{InstagramProfile} = InstagramProfile[]
+
+        if (length(profiles) == 0) 
+            return arr::Vector{InstagramProfile} 
+        end
+
+        profile_generator = (p::String for p = profiles)
+
+        empty(profiles)
+
+        @sync for prof::String in profile_generator
+            url::String = "https://www.instagram.com/$prof"
+            @async begin
+                body::String = Util.fetch_body(url)
+                instagram_profile::Union{Nothing, InstagramProfile} = get_followers(body, url)
+                if instagram_profile == nothing
+                    printstyled("\n\t$prof was not found\n", color=:light_red)
+                else
+                    push!(arr, instagram_profile);
+                end
+            end
         end
     end
     
@@ -90,5 +102,11 @@ function get_multiple_followers(profiles::Array{String, 1}=[], printable::Bool=f
         print(arr)
     end
 
-    return arr
+    return arr::Vector{InstagramProfile}
 end
+
+precompile(get_multiple_followers, (Vector{String}, Bool))
+precompile(get_followers, (String, String))
+precompile(Base.show, (InstagramProfile,))
+precompile(Base.print, (IO, Array{InstagramProfile, 1}))
+end # module
