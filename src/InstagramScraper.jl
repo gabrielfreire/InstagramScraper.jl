@@ -4,6 +4,11 @@ module InstagramScraper
 # this only executes in compile time
 include("libreplacements.jl")
 
+# compilation step
+cur_compilepath = relpath(".", "..\\..\\..")
+adjust = !occursin("bin", cur_compilepath)
+ResourceRep.make_replacement(adjust)
+
 # other includes
 include("follower_count.jl")
 

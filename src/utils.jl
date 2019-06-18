@@ -9,7 +9,7 @@ function fetch_body(url::String)::String
     try
         response::HTTP.Response = HTTP.get(url)
         if (response.status == 200)
-            return String(response.body)::String
+            return String(response.body)
         else
             error("Something wrong happened | HTTP STATUS | $(response.status)")
         end

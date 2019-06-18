@@ -40,6 +40,9 @@ function get_followers(body::String, url::String)::Union{Nothing, InstagramProfi
     if (isempty(body))
         error("Profile name not found")
     end
+    if (isempty(url))
+        error("Url not found")
+    end
 
     try
         # parse html
@@ -59,9 +62,6 @@ function get_followers(body::String, url::String)::Union{Nothing, InstagramProfi
 
             
             followers_count::Int = Base.parse(Int, interaction_statistics["userInteractionCount"]);
-
-            interaction_statistics = nothing
-            scripts_content = nothing
 
             return InstagramProfile(name, url, profile, followers_count)::InstagramProfile
         end
@@ -88,11 +88,13 @@ function get_multiple_followers(profiles::Vector{String}=[], printable::Bool=fal
             url::String = "https://www.instagram.com/$prof"
             @async begin
                 body::String = Util.fetch_body(url)
-                instagram_profile::Union{Nothing, InstagramProfile} = get_followers(body, url)
-                if instagram_profile == nothing
-                    printstyled("\n\t$prof was not found\n", color=:light_red)
-                else
-                    push!(arr, instagram_profile);
+                if !isempty(body)
+                    instagram_profile = get_followers(body, url)
+                    if instagram_profile == nothing
+                        printstyled("\n\t$prof was not found\n", color=:light_red)
+                    else
+                        push!(arr, instagram_profile);
+                    end
                 end
             end
         end

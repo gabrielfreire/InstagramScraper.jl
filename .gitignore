@@ -8,14 +8,17 @@ res
 src/precompile
 
 # builddir
+builddir
 src/builddir
 
 #code backup folder
 backup
 
 # other unecessary files created by compile.jl
+src/*.iss
 src/*.nsi
 src/*.exe
 *.nsi
+*.iss
 *.exe
 *.csv
