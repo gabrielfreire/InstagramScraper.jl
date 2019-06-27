@@ -32,4 +32,5 @@ function make_replacement(startpath::Bool)
         # Core.eval(MbedTLS, :(const libmbedx509 = "lib\\\\$(basename(libmbedx509))"))
     end
 end
-end
+
+end # module

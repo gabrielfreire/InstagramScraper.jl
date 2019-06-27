@@ -7,10 +7,11 @@
 to run julia `./src/InstagramScraper.jl` file
 - run `git clone https://github.com/gabrielfreire/InstagramScraper.jl.git`
 
-to run julia `./src/compile.jl` file
+to run julia `./compile.jl` file
 ```julia
 Julia > using Pkg
-Julia > Pkg.add("ApplicationBuilder")
+Julia > Pkg.add("https://github.com/gabrielfreire/ApplicationBuilder.jl.git")
+Julia > Pkg.add("SnoopCompile")
 ```
 # Run Julia
 **usage**
@@ -42,17 +43,12 @@ $ julia InstagramScraper.jl gabrielfreiredev freire.tatyana
 
 # Build executable
 ```shell
-$ julia src/compile.jl
+$ julia compile.jl
 ```
 
 # Run Unit Tests
 ```shell
 $ julia test/runtests.jl
-```
-# Run Manual Test
-You need to build/uncompress the executable in order to run this script
-```shell
-$ bash run.sh
 ```
 
 # TODO

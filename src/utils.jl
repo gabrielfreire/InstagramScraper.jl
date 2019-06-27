@@ -1,5 +1,8 @@
 module Util
 using HTTP
+
+export fetch_body
+
 function fetch_body(url::String)::String
 
     if (isempty(url))
@@ -18,6 +21,5 @@ function fetch_body(url::String)::String
     end
 end
 
-export fetch_body
 precompile(fetch_body, (String,))
 end # module

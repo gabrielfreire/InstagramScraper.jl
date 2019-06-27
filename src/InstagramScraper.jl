@@ -1,6 +1,8 @@
 Base.eval(:(have_color = true))
 module InstagramScraper
 
+export FollowerCount
+
 # this only executes in compile time
 include("libreplacements.jl")
 
@@ -39,4 +41,5 @@ end
 
 julia_main(ARGS)
 precompile(julia_main, (Vector{String},))
+
 end # module
